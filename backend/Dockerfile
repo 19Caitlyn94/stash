@@ -45,9 +45,6 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-
-
-
 # Final stage for app image
 FROM base
 
@@ -67,3 +64,26 @@ ENTRYPOINT ["/rails/bin/docker-entrypoint"]
 # Start server via Thruster by default, this can be overwritten at runtime
 EXPOSE 80
 CMD ["./bin/thrust", "./bin/rails", "server"]
+
+FROM ruby:3.2
+
+WORKDIR /app
+
+# Install dependencies
+COPY Gemfile Gemfile.lock ./
+RUN bundle install
+
+# Install Node.js and Yarn for asset compilation (if needed)
+RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && \
+    apt-get update && apt-get install -y nodejs && rm -rf /var/lib/apt/lists/*
+RUN npm install -g yarn
+
+# Copy the rest of the app
+COPY . .
+
+# Precompile assets (if using Rails assets)
+# RUN bundle exec rake assets:precompile
+
+EXPOSE 3000
+
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
