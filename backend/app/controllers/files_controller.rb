@@ -1,8 +1,10 @@
 class FilesController < ApplicationController
+  allow_unauthenticated_access
 
   # GET /files
   def index
     uploads_dir = Rails.root.join('storage', 'uploads')
+
     files = []
     if Dir.exist?(uploads_dir)
       Dir.entries(uploads_dir).each do |filename|
@@ -12,7 +14,8 @@ class FilesController < ApplicationController
         files << {
           filename: filename,
           size: stat.size,
-          created_at: stat.ctime
+          created_at: stat.ctime,
+          path: uploads_dir
         }
       end
     end
