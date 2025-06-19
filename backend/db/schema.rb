@@ -23,6 +23,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_19_120000) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "upload_activities", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "user_file_id", null: false
+    t.datetime "uploaded_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.string "ip_address"
+    t.string "user_agent"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uploaded_at"], name: "index_upload_activities_on_uploaded_at"
+    t.index ["user_file_id"], name: "index_upload_activities_on_user_file_id"
+    t.index ["user_id"], name: "index_upload_activities_on_user_id"
+  end
+
   create_table "user_files", force: :cascade do |t|
     t.string "file_name"
     t.string "file_type"
@@ -43,5 +56,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_19_120000) do
   end
 
   add_foreign_key "sessions", "users"
+  add_foreign_key "upload_activities", "user_files"
+  add_foreign_key "upload_activities", "users"
   add_foreign_key "user_files", "users"
 end

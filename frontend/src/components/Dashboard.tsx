@@ -14,6 +14,8 @@ export function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+  const [activity, setActivity] = useState<any[]>([]);
+  const [activityLoading, setActivityLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -23,6 +25,7 @@ export function Dashboard() {
     }
     if (user) {
       loadFiles();
+      loadActivity();
     }
   }, [user, authLoading]);
 
@@ -34,6 +37,18 @@ export function Dashboard() {
       setError('Failed to load files');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadActivity = async () => {
+    setActivityLoading(true);
+    try {
+      const activityList = await fileApi.getUploadActivity();
+      setActivity(activityList);
+    } catch (err) {
+      setActivity([]);
+    } finally {
+      setActivityLoading(false);
     }
   };
 
@@ -125,7 +140,7 @@ export function Dashboard() {
   }
 
   return (
-    <div className="dashboard">
+    <div className="dashboard-main">
       <header className="dashboard-header">
         <h1>Your Stash</h1>
         <div className="user-info">
@@ -165,7 +180,6 @@ export function Dashboard() {
 
       <div className="files-section">
         <h2>Your Files ({files.length})</h2>
-        
         {loading ? (
           <p>Loading files...</p>
         ) : files.length === 0 ? (
