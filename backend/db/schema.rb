@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_19_114918) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_19_120000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -24,14 +24,14 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_19_114918) do
   end
 
   create_table "user_files", force: :cascade do |t|
-    t.integer "user_id"
     t.string "file_name"
     t.string "file_type"
     t.string "file_path"
     t.integer "file_size"
-    t.string "file_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "user_id", null: false
+    t.index ["user_id"], name: "index_user_files_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -43,4 +43,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_06_19_114918) do
   end
 
   add_foreign_key "sessions", "users"
+  add_foreign_key "user_files", "users"
 end
