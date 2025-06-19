@@ -153,6 +153,11 @@ export const fileApi = {
     };
     return mimeTypes[extension || ''] || 'application/octet-stream';
   },
+
+  async getUploadActivity(): Promise<any[]> {
+    const response = await apiRequest<{ activities: any[] }>('/uploads');
+    return response.activities;
+  },
 };
 
 // Export all APIs

@@ -59,6 +59,14 @@ class UploadsController < ApplicationController
       file_size: file.size
     )
 
+    # Log upload activity
+    UploadActivity.create!(
+      user: Current.user,
+      user_file: user_file,
+      ip_address: request.remote_ip,
+      user_agent: request.user_agent
+    )
+
     Rails.logger.info("User #{Current.user.id} uploaded file #{user_file.id} (#{sanitized_filename}, #{file.size} bytes)")
     render json: { id: user_file.id, uuid: unique_id }, status: :created
   rescue ActiveRecord::RecordInvalid => e

@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   resources :files, only: [:index, :show], param: :file_id
 
   post '/uploads', to: 'uploads#create'
+  get '/uploads', to: 'uploads#index'
 end
