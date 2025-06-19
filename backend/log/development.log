@@ -44,3 +44,126 @@ Processing by UsersController#create as HTML
 Completed 422 Unprocessable Content in 1ms (Views: 0.1ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
 
 
+Started POST "/users" for ::1 at 2025-06-19 13:13:33 +0200
+  [1m[36mActiveRecord::SchemaMigration Load (3.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Stash'*/[0m
+Processing by UsersController#create as HTML
+  Parameters: {"email_address"=>"[FILTERED]", "password_digest"=>"[FILTERED]", "user"=>{"email_address"=>"[FILTERED]", "password_digest"=>"[FILTERED]"}}
+[31mUnpermitted parameter: :password_digest. Context: { controller: UsersController, action: create, request: #<ActionDispatch::Request:0x00000001296b28b0>, params: {"email_address"=>"[FILTERED]", "password_digest"=>"[FILTERED]", "controller"=>"users", "action"=>"create", "user"=>{"email_address"=>"[FILTERED]", "password_digest"=>"[FILTERED]"}} }[0m
+Completed 422 Unprocessable Content in 18ms (Views: 0.2ms | ActiveRecord: 93.9ms (0 queries, 0 cached) | GC: 0.3ms)
+
+
+Started POST "/users" for ::1 at 2025-06-19 13:14:36 +0200
+Processing by UsersController#create as HTML
+  Parameters: {"user"=>{"email_address"=>"[FILTERED]", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]"}}
+  [1m[36mTRANSACTION (1.1ms)[0m  [1m[35mBEGIN /*action='create',application='Stash',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:10:in `create'
+  [1m[36mUser Create (8.5ms)[0m  [1m[32mINSERT INTO "users" ("email_address", "password_digest", "created_at", "updated_at") VALUES ('obakeng@me.org', '$2a$12$eeQ/kZkESMGU9EKotXbJIuOU7M1KFniYTYR9o6mqjzQ6tZmripOae', '2025-06-19 11:14:36.979065', '2025-06-19 11:14:36.979065') RETURNING "id" /*action='create',application='Stash',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:10:in `create'
+  [1m[36mTRANSACTION (0.5ms)[0m  [1m[35mCOMMIT /*action='create',application='Stash',controller='users'*/[0m
+  ↳ app/controllers/users_controller.rb:10:in `create'
+  [1m[36mTRANSACTION (1.4ms)[0m  [1m[35mBEGIN /*action='create',application='Stash',controller='users'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+  [1m[36mSession Create (73.1ms)[0m  [1m[32mINSERT INTO "sessions" ("user_id", "ip_address", "user_agent", "created_at", "updated_at") VALUES (1, '::1', 'bruno-runtime/2.3.0', '2025-06-19 11:14:37.046402', '2025-06-19 11:14:37.046402') RETURNING "id" /*action='create',application='Stash',controller='users'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT /*action='create',application='Stash',controller='users'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+Completed 201 Created in 433ms (Views: 0.1ms | ActiveRecord: 103.6ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+Started GET "/users" for ::1 at 2025-06-19 13:18:13 +0200
+  
+ActionController::RoutingError (No route matches [GET] "/users"):
+  
+Started GET "/users/1" for ::1 at 2025-06-19 13:18:16 +0200
+  
+ActionController::RoutingError (No route matches [GET] "/users/1"):
+  
+Started POST "/users" for ::1 at 2025-06-19 13:19:53 +0200
+Processing by UsersController#create as HTML
+  Parameters: {"email_address"=>"[FILTERED]", "password"=>"[FILTERED]", "password_confirmation"=>"[FILTERED]", "user"=>{"email_address"=>"[FILTERED]"}}
+Completed 422 Unprocessable Content in 3ms (Views: 0.2ms | ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+Started POST "/session" for ::1 at 2025-06-19 13:56:19 +0200
+Error occurred while parsing request parameters.
+Contents:
+
+{
+  "email_address": "obakeng@me.org",
+  "password": "test123",
+}
+Processing by SessionsController#create as HTML
+Completed 400 Bad Request in 2ms (ActiveRecord: 0.0ms (0 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+ActionDispatch::Http::Parameters::ParseError (Error occurred while parsing request parameters)
+Caused by: JSON::ParserError (expected object key, got: '}' at line 3 column 1)
+
+Information for: ActionDispatch::Http::Parameters::ParseError (Error occurred while parsing request parameters):
+  
+app/controllers/sessions_controller.rb:9:in `create'
+
+Information for cause: JSON::ParserError (expected object key, got: '}' at line 3 column 1):
+  
+app/controllers/sessions_controller.rb:9:in `create'
+Started POST "/session" for ::1 at 2025-06-19 13:57:21 +0200
+Processing by SessionsController#create as HTML
+  Parameters: {"email_address"=>"[FILTERED]", "password"=>"[FILTERED]", "session"=>{}}
+[31mUnpermitted parameter: :session. Context: { controller: SessionsController, action: create, request: #<ActionDispatch::Request:0x000000012bff0b50>, params: {"email_address"=>"[FILTERED]", "password"=>"[FILTERED]", "controller"=>"sessions", "action"=>"create", "session"=>{}} }[0m
+  [1m[36mUser Load (1.7ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email_address" = 'obakeng@me.org' LIMIT 1 /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:9:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+  [1m[36mSession Create (3.0ms)[0m  [1m[32mINSERT INTO "sessions" ("user_id", "ip_address", "user_agent", "created_at", "updated_at") VALUES (1, '::1', 'bruno-runtime/2.3.0', '2025-06-19 11:57:22.122042', '2025-06-19 11:57:22.122042') RETURNING "id" /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+  [1m[36mTRANSACTION (2.1ms)[0m  [1m[35mCOMMIT /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+Completed 500 Internal Server Error in 372ms (ActiveRecord: 31.4ms (2 queries, 0 cached) | GC: 18.2ms)
+
+
+  
+NameError (undefined local variable or method `root_url' for an instance of SessionsController):
+  
+app/controllers/concerns/authentication.rb:36:in `after_authentication_url'
+app/controllers/sessions_controller.rb:11:in `create'
+Started POST "/session" for ::1 at 2025-06-19 13:59:07 +0200
+Processing by SessionsController#create as HTML
+  Parameters: {"email_address"=>"[FILTERED]", "password"=>"[FILTERED]", "session"=>{}}
+[31mUnpermitted parameter: :session. Context: { controller: SessionsController, action: create, request: #<ActionDispatch::Request:0x000000012bf596b0>, params: {"email_address"=>"[FILTERED]", "password"=>"[FILTERED]", "controller"=>"sessions", "action"=>"create", "session"=>{}} }[0m
+  [1m[36mUser Load (1.6ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email_address" = 'obakeng@me.org' LIMIT 1 /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:9:in `create'
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+  [1m[36mSession Create (1.5ms)[0m  [1m[32mINSERT INTO "sessions" ("user_id", "ip_address", "user_agent", "created_at", "updated_at") VALUES (1, '::1', 'bruno-runtime/2.3.0', '2025-06-19 11:59:08.283598', '2025-06-19 11:59:08.283598') RETURNING "id" /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+  [1m[36mTRANSACTION (41.1ms)[0m  [1m[35mCOMMIT /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+Completed 500 Internal Server Error in 330ms (ActiveRecord: 44.3ms (2 queries, 0 cached) | GC: 0.0ms)
+
+
+  
+NameError (undefined local variable or method `root_url' for an instance of SessionsController):
+  
+app/controllers/concerns/authentication.rb:36:in `after_authentication_url'
+app/controllers/sessions_controller.rb:11:in `create'
+Started POST "/session" for ::1 at 2025-06-19 13:59:22 +0200
+Processing by SessionsController#create as HTML
+  Parameters: {"email_address"=>"[FILTERED]", "password"=>"[FILTERED]", "session"=>{}}
+[31mUnpermitted parameter: :session. Context: { controller: SessionsController, action: create, request: #<ActionDispatch::Request:0x000000012979a3e0>, params: {"email_address"=>"[FILTERED]", "password"=>"[FILTERED]", "controller"=>"sessions", "action"=>"create", "session"=>{}} }[0m
+  [1m[36mUser Load (0.4ms)[0m  [1m[34mSELECT "users".* FROM "users" WHERE "users"."email_address" = 'obakeng@me.org' LIMIT 1 /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/sessions_controller.rb:9:in `create'
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mBEGIN /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+  [1m[36mSession Create (1.1ms)[0m  [1m[32mINSERT INTO "sessions" ("user_id", "ip_address", "user_agent", "created_at", "updated_at") VALUES (1, '::1', 'bruno-runtime/2.3.0', '2025-06-19 11:59:23.175498', '2025-06-19 11:59:23.175498') RETURNING "id" /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+  [1m[36mTRANSACTION (3.3ms)[0m  [1m[35mCOMMIT /*action='create',application='Stash',controller='sessions'*/[0m
+  ↳ app/controllers/concerns/authentication.rb:40:in `start_new_session_for'
+Redirected to http://localhost:3000/
+Completed 302 Found in 295ms (ActiveRecord: 21.6ms (2 queries, 0 cached) | GC: 4.5ms)
+
+
+Started POST "/" for ::1 at 2025-06-19 13:59:23 +0200
+  
+ActionController::RoutingError (No route matches [POST] "/"):
+  
