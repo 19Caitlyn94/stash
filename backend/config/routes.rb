@@ -9,4 +9,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "posts#index"
+
+  # Custom resourceful routing for PostsController
+  resources :files, only: [:index, :show], param: :file_id
 end
