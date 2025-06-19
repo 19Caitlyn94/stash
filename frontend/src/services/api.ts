@@ -126,7 +126,7 @@ export const fileApi = {
   },
 
   async download(fileId: number): Promise<Blob> {
-    const response = await fetch(`${API_BASE_URL}/files/${fileId}`, {
+    const response = await fetch(`${API_BASE_URL}/files/${fileId}?download=true`, {
       method: 'GET',
       credentials: 'include',
     });
