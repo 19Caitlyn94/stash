@@ -7,11 +7,10 @@
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
   allow do
-    origins ["http://localhost:5173"]
+    origins "https://frontend-restless-grass-9554.fly.dev", "http://localhost:5173"
 
     resource "*",
       headers: :any,
-      methods: [:get, :post, :put, :patch, :delete, :options, :head],
-      credentials: true
+      methods: [:get, :post, :put, :patch, :delete, :options, :head]
   end
 end

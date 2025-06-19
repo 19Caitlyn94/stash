@@ -9,6 +9,8 @@ import stashLogo from '../assets/stash_logo.png';
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'text/plain', 'text/markdown', 'text/csv'];
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+
 export function Dashboard() {
   const { user, logout, loading: authLoading } = useAuth();
   const [files, setFiles] = useState<FileItem[]>([]);

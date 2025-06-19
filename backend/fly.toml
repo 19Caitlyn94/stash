@@ -1,26 +1,39 @@
-app = "your-backend-app-name"
+# fly.toml app configuration file generated for stash-backend on 2025-06-19T15:51:12+02:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-primary_region = "jnb"
+app = 'stash-backend'
+primary_region = 'jnb'
 
 [build]
-  dockerfile = "Dockerfile"
+  dockerfile = 'Dockerfile'
 
 [env]
-  RAILS_ENV = "production"
-  PORT = "3000"
+  PORT = '3000'
+  RAILS_ENV = 'production'
 
 [http_service]
   internal_port = 3000
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
-  processes = ["app"]
+  processes = ['app']
 
 [[services]]
+  protocol = 'tcp'
   internal_port = 3000
-  protocol = "tcp"
-  ports = [
-    { port = 80, handlers = ["http"] },
-    { port = 443, handlers = ["tls", "http"] }
-  ] 
+
+  [[services.ports]]
+    port = 80
+    handlers = ['http']
+
+  [[services.ports]]
+    port = 443
+    handlers = ['tls', 'http']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
