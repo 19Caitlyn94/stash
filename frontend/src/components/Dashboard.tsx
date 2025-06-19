@@ -3,20 +3,28 @@ import { useDropzone } from 'react-dropzone';
 import { useAuth } from '../hooks/useAuth';
 import { fileApi } from '../services/api';
 import type { FileItem } from '../types';
+import { useNavigate } from 'react-router-dom';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'text/plain', 'text/markdown', 'text/csv'];
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
 
 export function Dashboard() {
-  const { user, logout } = useAuth();
+  const { user, logout, loading: authLoading } = useAuth();
   const [files, setFiles] = useState<FileItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
-    loadFiles();
-  }, []);
+    if (!user && !authLoading) {
+      navigate('/', { replace: true });
+      return;
+    }
+    if (user) {
+      loadFiles();
+    }
+  }, [user, authLoading]);
 
   const loadFiles = async () => {
     try {
@@ -100,6 +108,15 @@ export function Dashboard() {
       minute: '2-digit'
     });
   };
+
+  if (authLoading || loading) {
+    return (
+      <div className="loading-container">
+        <div className="loading-spinner"></div>
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="dashboard">
