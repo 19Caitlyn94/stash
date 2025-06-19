@@ -584,3 +584,22 @@ NameError (undefined local variable or method `root_url' for an instance of Sess
   
 app/controllers/concerns/authentication.rb:36:in `after_authentication_url'
 app/controllers/sessions_controller.rb:11:in `create'
+  [1m[36mUser Load (20.0ms)[0m  [1m[34mSELECT "users".* FROM "users" /* loading for pp */ LIMIT 11 /*application='Stash'*/[0m
+  [1m[36mUser Load (1.3ms)[0m  [1m[34mSELECT "users".* FROM "users" /* loading for pp */ LIMIT 11 /*application='Stash'*/[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT pg_try_advisory_lock(1415173146568422885) /*application='Stash'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (1.0ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Stash'*/[0m
+  [1m[36mActiveRecord::InternalMetadata Load (2.6ms)[0m  [1m[34mSELECT * FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = 'environment' ORDER BY "ar_internal_metadata"."key" ASC LIMIT 1 /*application='Stash'*/[0m
+Migrating to UpdateUserFilesForUserAssociation (20250619120000)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mBEGIN /*application='Stash'*/[0m
+  [1m[35m (9.4ms)[0m  [1m[35mALTER TABLE "user_files" DROP COLUMN "user_id" /*application='Stash'*/[0m
+  [1m[35m (1.5ms)[0m  [1m[35mALTER TABLE "user_files" DROP COLUMN "file_created_at" /*application='Stash'*/[0m
+  [1m[35m (0.3ms)[0m  [1m[35mALTER TABLE "user_files" ADD "user_id" bigint NOT NULL /*application='Stash'*/[0m
+  [1m[35m (4.5ms)[0m  [1m[35mCREATE INDEX "index_user_files_on_user_id" ON "user_files" ("user_id") /*application='Stash'*/[0m
+  [1m[35m (13.0ms)[0m  [1m[35mALTER TABLE "user_files" ADD CONSTRAINT "fk_rails_43d7c1bb88"
+FOREIGN KEY ("user_id")
+  REFERENCES "users" ("id")
+ /*application='Stash'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Create (0.2ms)[0m  [1m[32mINSERT INTO "schema_migrations" ("version") VALUES ('20250619120000') RETURNING "version" /*application='Stash'*/[0m
+  [1m[36mTRANSACTION (0.6ms)[0m  [1m[35mCOMMIT /*application='Stash'*/[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT pg_advisory_unlock(1415173146568422885) /*application='Stash'*/[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC /*application='Stash'*/[0m
