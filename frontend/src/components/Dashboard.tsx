@@ -59,8 +59,14 @@ export function Dashboard() {
     try {
       const uploadedFile = await fileApi.upload(file);
       setFiles(prev => [uploadedFile, ...prev]);
-    } catch (err) {
-      setError('Upload failed. Please try again.');
+    } catch (err: any) {
+      if (typeof err.message === 'string' && err.message.includes('Unsupported file type')) {
+        setError('The file type you selected is not supported. Please upload a JPG, PNG, GIF, SVG, TXT, MD, or CSV file.');
+      } else if (typeof err.message === 'string') {
+        setError(`Upload failed: ${err.message}`);
+      } else {
+        setError('Upload failed. Please try again.');
+      }
     } finally {
       setUploading(false);
     }
