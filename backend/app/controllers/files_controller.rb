@@ -1,14 +1,22 @@
 class FilesController < ApplicationController
-  # POST /upload
-  def upload
-    # TODO: Implement file upload logic
-    render json: { message: 'Upload endpoint' }
-  end
 
   # GET /files
   def index
-    # TODO: Implement listing of files
-    render json: { message: 'List files endpoint' }
+    uploads_dir = Rails.root.join('storage', 'uploads')
+    files = []
+    if Dir.exist?(uploads_dir)
+      Dir.entries(uploads_dir).each do |filename|
+        next if filename == '.' || filename == '..'
+        path = uploads_dir.join(filename)
+        stat = File.stat(path)
+        files << {
+          filename: filename,
+          size: stat.size,
+          created_at: stat.ctime
+        }
+      end
+    end
+    render json: { files: files }
   end
 
   # GET /files/:file_id
