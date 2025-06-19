@@ -1,5 +1,5 @@
 class UserFile < ApplicationRecord
-  self.table_name = 'files_tables'
+  self.table_name = 'user_files'
   belongs_to :user
 
   validates :file_name, presence: true
