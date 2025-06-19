@@ -155,7 +155,7 @@ export function Dashboard() {
     <div className="dashboard-main">
       <header className="dashboard-header">
         <div className="logo-container">
-          <img src={stashLogo} alt="Stash" className="stash-logo" />
+          <img src={stashLogo} alt="Stash" className="stash-logo" style={{ filter: darkMode ? 'invert(1) hue-rotate(180deg)' : 'none', transition: 'filter 0.3s' }} />
         </div>
         <div className="user-info">
           <span>Welcome, {user?.email_address}</span>
