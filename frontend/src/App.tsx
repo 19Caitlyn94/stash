@@ -3,11 +3,14 @@ import { AuthProvider, useAuth } from './hooks/useAuth'
 import { Login } from './components/Login'
 import { Signup } from './components/Signup'
 import { Dashboard } from './components/Dashboard'
+import { Landing } from './components/Landing'
 import './App.css'
+import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 
-function AuthWrapper() {
-  const { user, loading } = useAuth()
-  const [isLogin, setIsLogin] = useState(true)
+function AuthWrapper({ initialMode }: { initialMode: 'login' | 'signup' }) {
+  const { user, loading } = useAuth();
+  const [isLogin, setIsLogin] = useState(initialMode === 'login');
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -15,26 +18,35 @@ function AuthWrapper() {
         <div className="loading-spinner"></div>
         <p>Loading...</p>
       </div>
-    )
+    );
   }
 
   if (user) {
-    return <Dashboard />
+    // If already logged in, redirect to dashboard
+    return <Navigate to="/dashboard" state={{ from: location }} replace />;
   }
 
   return isLogin ? (
     <Login onToggleMode={() => setIsLogin(false)} />
   ) : (
     <Signup onToggleMode={() => setIsLogin(true)} />
-  )
+  );
 }
 
 function App() {
   return (
     <AuthProvider>
-      <div className="app">
-        <AuthWrapper />
-      </div>
+      <BrowserRouter>
+        <div className="app">
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/login" element={<AuthWrapper initialMode="login" />} />
+            <Route path="/signup" element={<AuthWrapper initialMode="signup" />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="*" element={<Navigate to="/" />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </AuthProvider>
   )
 }

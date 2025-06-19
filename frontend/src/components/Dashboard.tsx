@@ -3,6 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import { useAuth } from '../hooks/useAuth';
 import { fileApi } from '../services/api';
 import type { FileItem } from '../types';
+import { useNavigate } from 'react-router-dom';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'text/plain', 'text/markdown', 'text/csv'];
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
@@ -13,6 +14,7 @@ export function Dashboard() {
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadFiles();
@@ -107,7 +109,13 @@ export function Dashboard() {
         <h1>Your Stash</h1>
         <div className="user-info">
           <span>Welcome, {user?.email_address}</span>
-          <button onClick={logout} className="btn-secondary">
+          <button
+            onClick={async () => {
+              await logout();
+              navigate('/');
+            }}
+            className="btn-secondary"
+          >
             Sign out
           </button>
         </div>
