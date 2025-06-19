@@ -168,7 +168,7 @@ export function Dashboard() {
             style={{ marginLeft: '1rem' }}
             aria-label="Toggle dark mode"
           >
-            {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
+            {darkMode ? '☀️' : '🌙'}
           </button>
         </div>
       </header>
