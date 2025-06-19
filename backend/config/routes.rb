@@ -13,4 +13,6 @@ Rails.application.routes.draw do
 
   # Custom resourceful routing for PostsController
   resources :files, only: [:index, :show], param: :file_id
+
+  post '/uploads', to: 'uploads#create'
 end
