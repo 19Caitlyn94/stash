@@ -38,8 +38,7 @@ class UploadsController < ApplicationController
       file_name: file.original_filename,
       file_type: file.content_type,
       file_path: storage_path.to_s,
-      file_size: file.size,
-      file_created_at: Time.current
+      file_size: file.size
     )
 
     render json: { id: user_file.id, uuid: unique_id }, status: :created

@@ -82,18 +82,20 @@ export const authApi = {
 export const fileApi = {
   async list(): Promise<FileItem[]> {
     interface BackendFile {
+      id: number;
       filename: string;
-      size: number;
+      content_type: string;
+      file_size: number;
       created_at: string;
     }
     const response = await apiRequest<{ files: BackendFile[] }>('/files');
     
     // Transform the backend response to match our FileItem interface
-    return response.files.map((file, index) => ({
-      id: index + 1, // Backend doesn't provide IDs, so we generate them
+    return response.files.map((file) => ({
+      id: file.id,
       filename: file.filename,
-      content_type: this.getContentType(file.filename),
-      file_size: file.size,
+      content_type: file.content_type,
+      file_size: file.file_size,
       created_at: file.created_at,
     }));
   },
@@ -102,21 +104,20 @@ export const fileApi = {
     const formData = new FormData();
     formData.append('file', file);
 
-    // Note: The backend doesn't have upload endpoint yet, so this might fail
-    // until the backend is updated
-    const response = await fetch(`${API_BASE_URL}/files`, {
+    const response = await fetch(`${API_BASE_URL}/uploads`, {
       method: 'POST',
       credentials: 'include',
       body: formData,
     });
 
     if (!response.ok) {
-      throw new Error('Upload failed');
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || 'Upload failed');
     }
 
     const data = await response.json();
     return {
-      id: data.id || Date.now(), // Fallback ID
+      id: data.id,
       filename: file.name,
       content_type: file.type,
       file_size: file.size,
