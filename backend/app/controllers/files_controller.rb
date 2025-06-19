@@ -3,21 +3,14 @@ class FilesController < ApplicationController
 
   # GET /files
   def index
-    uploads_dir = Rails.root.join('storage', 'uploads')
-
-    files = []
-    if Dir.exist?(uploads_dir)
-      Dir.entries(uploads_dir).each do |filename|
-        next if filename == '.' || filename == '..'
-        path = uploads_dir.join(filename)
-        stat = File.stat(path)
-        files << {
-          filename: filename,
-          size: stat.size,
-          created_at: stat.ctime,
-          path: uploads_dir
-        }
-      end
+    user_files = Current.user&.user_files || []
+    files = user_files.map do |file|
+      {
+        filename: file.file_name,
+        size: file.file_size,
+        created_at: file.file_created_at,
+        path: file.file_path
+      }
     end
     render json: { files: files }
   end

@@ -1,19 +1,10 @@
 require 'rails_helper'
 
 describe 'FilesController', type: :request do
-  let(:uploads_dir) { Rails.root.join('storage', 'uploads') }
-
-  before do
-    FileUtils.mkdir_p(uploads_dir)
-    File.write(uploads_dir.join('testfile.txt'), 'test content')
-  end
-
-  after do
-    FileUtils.rm_rf(uploads_dir)
-  end
+  let(:user) { User.create!(email_address: 'test@example.com', password: 'password') }
 
   context 'when user is not authenticated' do
-    it 'redirects to the login page' do
+    it 'returns unauthorized' do
       get '/files'
       expect(response).to have_http_status(:unauthorized)
     end
@@ -21,10 +12,12 @@ describe 'FilesController', type: :request do
 
   context 'when user is authenticated' do
     before do
-      # Simulate authentication by stubbing Current.session
-      allow(Current).to receive(:session).and_return(double('Session'))
-      allow_any_instance_of(ApplicationController).to receive(:authenticated?).and_return(true)
-      allow_any_instance_of(ApplicationController).to receive(:require_authentication).and_return(true)
+      # Simulate authentication by stubbing Current.session a/nd Current.user
+      session_double = double('Session', user: user)
+      allow(Current).to receive(:session).and_return(session_double)
+      allow(Current).to receive(:user).and_return(user)
+      # Create a file for the user
+      UserFile.create!(user: user, file_name: 'testfile.txt', file_size: 123, file_created_at: Time.now, file_path: '/some/path')
     end
 
     it 'returns a list of files with metadata' do
@@ -35,6 +28,7 @@ describe 'FilesController', type: :request do
       expect(json['files'].first['filename']).to eq('testfile.txt')
       expect(json['files'].first).to have_key('size')
       expect(json['files'].first).to have_key('created_at')
+      expect(json['files'].first).to have_key('path')
     end
   end
 end
