@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
   # Defines the root path route ("/")
-  # root "posts#index"
+  root "posts#index"
 
   # Custom resourceful routing for PostsController
   resources :files, only: [:index, :show], param: :file_id
