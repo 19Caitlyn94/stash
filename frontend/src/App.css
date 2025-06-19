@@ -14,6 +14,10 @@ body {
 
 .app {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Loading styles */
@@ -22,7 +26,6 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
   gap: 1rem;
 }
 
@@ -45,7 +48,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  width: 100%;
   padding: 1rem;
 }
 
@@ -167,9 +170,12 @@ body {
 
 /* Dashboard styles */
 .dashboard {
+  width: 100%;
   max-width: 1200px;
-  margin: 0 auto;
   padding: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard-header {
