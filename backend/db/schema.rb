@@ -10,9 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_06_19_120000) do
+ActiveRecord::Schema[8.0].define(version: 2025_06_19_122640) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "seed_migration_data_migrations", id: :serial, force: :cascade do |t|
+    t.string "version"
+    t.integer "runtime"
+    t.datetime "migrated_on", precision: nil
+  end
 
   create_table "sessions", force: :cascade do |t|
     t.bigint "user_id", null: false

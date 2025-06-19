@@ -17,6 +17,12 @@ export function Dashboard() {
   const [activity, setActivity] = useState<any[]>([]);
   const [activityLoading, setActivityLoading] = useState(true);
   const navigate = useNavigate();
+  const [darkMode, setDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('darkMode') === 'true';
+    }
+    return false;
+  });
 
   useEffect(() => {
     if (!user && !authLoading) {
@@ -28,6 +34,11 @@ export function Dashboard() {
       loadActivity();
     }
   }, [user, authLoading]);
+
+  useEffect(() => {
+    document.body.classList.toggle('dark', darkMode);
+    localStorage.setItem('darkMode', darkMode ? 'true' : 'false');
+  }, [darkMode]);
 
   const loadFiles = async () => {
     try {
@@ -147,6 +158,14 @@ export function Dashboard() {
           <span>Welcome, {user?.email_address}</span>
           <button onClick={logout} className="btn-secondary">
             Sign out
+          </button>
+          <button
+            onClick={() => setDarkMode((d) => !d)}
+            className="btn-secondary"
+            style={{ marginLeft: '1rem' }}
+            aria-label="Toggle dark mode"
+          >
+            {darkMode ? '☀️ Light Mode' : '🌙 Dark Mode'}
           </button>
         </div>
       </header>
