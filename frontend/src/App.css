@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+:root {
+  --primary-color: #1acb97;
+  --primary-hover: #16a87a;
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   background-color: #f8fafc;
@@ -170,13 +175,16 @@ body.dark .btn-secondary {
   border: 1px solid #d1d5db;
   border-radius: 8px;
   font-size: 1rem;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  background-color: #f9fafb;
+  color: #1f2937;
+  transition: border-color 0.2s, box-shadow 0.2s, background-color 0.2s;
 }
 
 .form-group input:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  border-color: var(--primary-color);
+  background-color: white;
+  box-shadow: 0 0 0 3px rgba(26, 203, 151, 0.1);
 }
 
 .form-group input:disabled {
@@ -186,7 +194,7 @@ body.dark .btn-secondary {
 
 .btn-primary {
   width: 100%;
-  background-color: #3b82f6;
+  background-color: var(--primary-color);
   color: white;
   border: none;
   padding: 0.75rem 1rem;
@@ -199,7 +207,7 @@ body.dark .btn-secondary {
 }
 
 .btn-primary:hover:not(:disabled) {
-  background-color: #2563eb;
+  background-color: var(--primary-hover);
 }
 
 .btn-primary:disabled {
@@ -232,14 +240,14 @@ body.dark .btn-secondary {
 .link-button {
   background: none;
   border: none;
-  color: #3b82f6;
+  color: var(--primary-color);
   cursor: pointer;
   text-decoration: underline;
   font: inherit;
 }
 
 .link-button:hover {
-  color: #2563eb;
+  color: var(--primary-hover);
 }
 
 .error-message {
@@ -269,6 +277,17 @@ body.dark .btn-secondary {
   margin-bottom: 2rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #e2e8f0;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
+.stash-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
 }
 
 .dashboard-header h1 {
@@ -304,13 +323,13 @@ body.dark .btn-secondary {
 }
 
 .dropzone:hover {
-  border-color: #3b82f6;
-  background-color: #f0f9ff;
+  border-color: var(--primary-color);
+  background-color: #f0fdf4;
 }
 
 .dropzone.active {
-  border-color: #3b82f6;
-  background-color: #dbeafe;
+  border-color: var(--primary-color);
+  background-color: #dcfce7;
 }
 
 .dropzone.uploading {

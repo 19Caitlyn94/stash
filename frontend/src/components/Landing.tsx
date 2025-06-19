@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Landing.css';
+import stashLogo from '../assets/stash_logo.png';
 
 const features = [
   {
@@ -29,7 +30,9 @@ export function Landing() {
   const navigate = useNavigate();
   return (
     <div className="landing-container">
-      <h1 className="landing-tagline">Cache It. Grab It. Done.</h1>
+      <div className="landing-logo">
+        <img src={stashLogo} alt="Stash" className="stash-logo-large" />
+      </div>
       <h2 className="landing-subheading">Your personal file vault—simple, fast, and secure.</h2>
       <div className="landing-features">
         {features.map((f, i) => (

@@ -4,6 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import { fileApi } from '../services/api';
 import type { FileItem } from '../types';
 import { useNavigate } from 'react-router-dom';
+import stashLogo from '../assets/stash_logo.png';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'text/plain', 'text/markdown', 'text/csv'];
 const MAX_FILE_SIZE = 2 * 1024 * 1024; // 2MB
@@ -153,7 +154,9 @@ export function Dashboard() {
   return (
     <div className="dashboard-main">
       <header className="dashboard-header">
-        <h1>Your Stash</h1>
+        <div className="logo-container">
+          <img src={stashLogo} alt="Stash" className="stash-logo" />
+        </div>
         <div className="user-info">
           <span>Welcome, {user?.email_address}</span>
           <button onClick={logout} className="btn-secondary">

@@ -1,3 +1,8 @@
+:root {
+  --primary-color: #1acb97;
+  --primary-hover: #16a87a;
+}
+
 .landing-container {
   display: flex;
   flex-direction: column;
@@ -5,6 +10,16 @@
   justify-content: center;
   min-height: 100vh;
   background: #f8fafc;
+}
+
+.landing-logo {
+  margin-bottom: 1rem;
+}
+
+.stash-logo-large {
+  height: 80px;
+  width: auto;
+  object-fit: contain;
 }
 
 .landing-tagline {
@@ -18,7 +33,7 @@
 .landing-subheading {
   font-size: 1.4rem;
   font-weight: 400;
-  color: #4f8cff;
+  color: var(--primary-color);
   margin-bottom: 2.5rem;
   text-align: center;
 }
@@ -37,7 +52,7 @@
   box-shadow: 0 2px 12px rgba(79, 140, 255, 0.08);
   padding: 1.5rem 2rem;
   min-width: 220px;
-  max-width: 260px;
+  max-width: 300px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -70,7 +85,7 @@
 .landing-btn {
   padding: 0.75rem 2rem;
   font-size: 1.2rem;
-  background: #4f8cff;
+  background: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 0.5rem;
@@ -79,5 +94,5 @@
 }
 
 .landing-btn:hover {
-  background: #2563eb;
+  background: var(--primary-hover);
 } 
