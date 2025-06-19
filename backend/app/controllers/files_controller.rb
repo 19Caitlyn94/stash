@@ -19,6 +19,13 @@ class FilesController < ApplicationController
   def show
     user_file = Current.user&.user_files&.find_by(id: params[:file_id])
     if user_file
+      # If ?download=true, send the file as an attachment
+      if params[:download].present?
+        return send_file user_file.file_path,
+          filename: user_file.file_name,
+          type: user_file.file_type,
+          disposition: 'attachment'
+      end
       render json: {
         filename: user_file.file_name,
         size: user_file.file_size,
